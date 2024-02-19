@@ -1,16 +1,11 @@
-from aiogram import types, Dispatcher
-from aiogram.utils import executor
+from aiogram import types
 from config import bot, dp
-from handlers import client
-import logging
-# from database.bot_db import sql_create
+from aiogram.utils import executer
 
-async def on_startup(dp: Dispatcher):
-    return
-    # sql_create()
+@dp.message_handler()
+async def echo(message: types.Message):
+    await bot.send_message(message.from_user.id, message.text)
 
-client.register_handler_client(dp)
 
-if __name__ == "__main__":
-    logging.basicConfig(level=logging.INFO)
-    executor.start_polling(dp, skip_updates=True, on_startup=on_startup)
+if __name__ == '__main__':
+    executer.start_polling(dp, skip_updates=True)
