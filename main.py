@@ -1,8 +1,8 @@
-from aiogram import types, Dispatcher
+from aiogram import types
 from config import bot, dp
 
 async def main():
-    await dp.start_polling(bot)
+    await dp.start_polling(bot, skip_updates=True)
 
 @dp.message()
 async def echo(message: types.Message):

@@ -1,7 +1,9 @@
 from aiogram import Bot, Dispatcher
 from aiogram.fsm.storage.memory import MemoryStorage
+from misc import TOKEN
+from decouple import config
 
-TOKEN = '6384356816:AAEZclC-3x-Zg4A9y36MCKP9wjpw6bcVv38'
+TOKEN = config('TOKEN') 
 storage = MemoryStorage()
 bot = Bot(token=TOKEN)
 dp = Dispatcher()
