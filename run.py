@@ -6,9 +6,6 @@ from routers import router as main_router
 from database import bot_db
 router = Router()
 
-# async def on_startup():
-#     db = bot_db.Database()
-#     db.sql_create()
 async def main():
     await dp.start_polling(bot, skip_updates=True)
 
