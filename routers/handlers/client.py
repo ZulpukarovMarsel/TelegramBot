@@ -1,8 +1,7 @@
 from aiogram import types , Router
 from config import dp, bot
 from aiogram.filters import CommandStart, Command
-from database.bot_db import save_to_database, get_saved_data
-from aiogram.types import ParseMode
+from database.bot_db import Database
 router = Router(name=__name__)
 
 @router.message(CommandStart())
@@ -15,18 +14,18 @@ async def handle_help(message: types.Message):
 
 @router.message(Command('save', prefix="!/"))
 async def handle_save(message: types.Message):
-    content_type = message.content_type()
+    content_type = message.content_type
     content_data = await message.content_data()
 
     user_id = message.from_user.id
-    save_to_database(user_id, content_type, content_data)
+    Database().save_to_database(user_id, content_type, content_data)
     await message.reply("Сохранено!")
 
 @router.message(Command("my_save", prefix="!/"))
 async def handle_my_save(message: types.Message):
     user_id = message.from_user.id
 
-    saved_data = get_saved_data(user_id)
+    saved_data = Database().select_from_database(user_id)
 
     if not saved_data:
         await message.reply("У вас нету сохраненных данных")
@@ -36,4 +35,4 @@ async def handle_my_save(message: types.Message):
     for content_type, content_list in saved_data:
         result_message += f"{content_type.capitalize()}: ({content_list})\n"
 
-    await message.reply(result_message, parse_mode=ParseMode.MARKDOWN)
+    await message.reply(result_message)
